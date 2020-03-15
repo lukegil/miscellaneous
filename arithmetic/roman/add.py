@@ -20,39 +20,37 @@ translator = {
 }
 
 
+def tryToCombine(lst):
+    combined = []
+    j = 0
+    for i in range(len(lst) + 1):
+        numerals = "".join(lst[j:i])
+        if translator.get(numerals):
+            combined.append(translator[numerals])
+            j = i
+
+    return (combined, lst[j:])
+
 def groupByType(sorted_string, final_string=""):
-    sorted_string.reverse()
-
     final = []
-    working_string = sorted_string
-    while True:
-        possible_combos = False
-        buffer = []
-        for char in working_string:
-            if not buffer:
-                buffer.append(char)
-                continue
+    buffer = []
+    sl = len(sorted_string)
+    i = 0
+    while i < sl:
+        cur_char = sorted_string[-1 - i]
+        if not buffer or cur_char is buffer[-1]:
+            buffer.append(cur_char)
+            i += 1
 
-            if buffer[0] is char:
-                buffer.append(char)
-                try:
-                    final += translator["".join(buffer)]
-                    buffer = []
-                    possible_combos = True
-                except KeyError:
-                    pass
-                continue
+        else:
+            buffer, leftovers = tryToCombine(buffer)
+            final += leftovers
 
-            final += buffer
-            buffer = [char]
-        final += buffer
-        if possible_combos:
-            working_string = final
-            final = []
-            continue
-        break
+    if buffer:
+        combined, leftovers = tryToCombine(buffer)
+        final += leftovers + combined
     final.reverse()
-    return "".join(final)
+    return final
 
 
 def romanSort(unsorted):
@@ -62,7 +60,7 @@ def romanSort(unsorted):
 def addRomanNumerals(addend1, addend2):
     concat_string = addend1 + addend2
     sorted_string = romanSort(concat_string)
-    return groupByType(sorted_string)
+    return "".join(groupByType(sorted_string))
 
 
 if __name__ == '__main__':
