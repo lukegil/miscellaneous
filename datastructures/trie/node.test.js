@@ -17,6 +17,7 @@ describe("node", () => {
         getCount: expect.any(Function),
         getLetter: expect.any(Function),
         mergeChildren: expect.any(Function),
+        toObject: expect.any(Function),
       });
     });
 
@@ -49,12 +50,13 @@ describe("node", () => {
       });
     });
 
-    describe("addOrIncrementChild", () => {
+    describe("addChild", () => {
       test("adds new child", () => {
         const a = createTrieNode("a");
         const b = createTrieNode("b");
-        b.addChild(a);
+        const actual = b.addChild(a);
         expect(b.getChildren()[a.getLetter()]).toBe(a);
+        expect(actual).toEqual(a);
       });
 
       test("merges existing children", () => {

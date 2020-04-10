@@ -17,6 +17,10 @@ function createTrieNode(letter) {
     },
     getCount: () => count,
     getLetter: () => letter,
+    toObject: () => ({
+      word: letter,
+      count: count,
+    }),
 
     // for testing
     mergeChildren
@@ -29,6 +33,7 @@ function createTrieNode(letter) {
     } else {
       children[nodeLetter] = node;
     }
+    return children[nodeLetter];
   }
 
   function mergeChildren(first, second) {
