@@ -7,7 +7,7 @@ function createTrie() {
 
   return {
     addWord,
-    getTopWords: () => {},
+    getTopWords,
     getRootNode: () => rootNode,
 
     // for testing
@@ -29,11 +29,18 @@ function createTrie() {
   function getTopWords(seed) {
     const list = seed.split("");
     let root = list.reduce((node, letter) => {
-      if (!node.getChildren()[letter]) {
+      if (node && !node.getChildren()[letter]) {
         throw new Error(`Word not present. Last letter was ${letter}`);
       }
       return node.getChildren()[letter];
     });
+    const words = findAllEndOfWords(root);
+    return words
+      .sort((a, b) => a.count > b.count)
+      .map((word) => {
+        word.word = seed + word.word;
+        return word;
+      });
   }
 
   function findAllEndOfWords(node) {
@@ -50,10 +57,11 @@ function createTrie() {
     let children = node.getChildren();
     return Object.keys(children).reduce((words, key) => {
       const cur = children[key];
-      const prevList = findAllEndOfWords(children[key]);
-      const combined = prevList.map((prev) => {
-        let a = 0;
-        prev.word = cur.getLetter() + prev.word;
+      const prevList = findAllEndOfWords(cur);
+      const combined = prevList.map(function (prev) {
+        let a = node.getLetter();
+        prev.word = a + prev.word;
+        return prev;
       });
       return words.concat(combined);
     }, words);

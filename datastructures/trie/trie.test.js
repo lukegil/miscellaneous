@@ -21,7 +21,7 @@ describe("trie", () => {
     });
   });
   describe("getTopWords", () => {
-    it("returns a word", () => {
+    it.only("returns a word", () => {
       const trie = createTrie();
       trie.addWord("word");
 
@@ -74,7 +74,7 @@ describe("trie", () => {
       expect(actual).toEqual(expected);
     });
   });
-  describe.only("findAllEndOfWords", () => {
+  describe("findAllEndOfWords", () => {
     let trie;
     beforeEach(() => {
       trie = createTrie();
@@ -89,7 +89,7 @@ describe("trie", () => {
 
       expect(trie.findAllEndOfWords(node)).toEqual([{ word: "a", count: 1 }]);
     });
-    test.only("works on one word", () => {
+    test("works on one word", () => {
       const trie = createTrie();
       trie.addWord("abcd");
 
@@ -97,6 +97,22 @@ describe("trie", () => {
         trie.getRootNode().getChildren()["a"]
       );
       expect(actual).toEqual([{ word: "abcd", count: 1 }]);
+    });
+
+    test("works on multiple word", () => {
+      const trie = createTrie();
+      trie.addWord("abcd");
+      trie.addWord("abcdef");
+      trie.addWord("abfgh");
+
+      const actual = trie.findAllEndOfWords(
+        trie.getRootNode().getChildren()["a"]
+      );
+      expect(actual).toEqual([
+        { word: "abcd", count: 1 },
+        { word: "abcdef", count: 1 },
+        { word: "abfgh", count: 1 },
+      ]);
     });
   });
 });
