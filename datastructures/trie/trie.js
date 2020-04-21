@@ -28,17 +28,21 @@ function createTrie() {
 
   function getTopWords(seed) {
     const list = seed.split("");
-    let root = list.reduce((node, letter) => {
+
+    const root = list.reduce((node, letter) => {
       if (node && !node.getChildren()[letter]) {
-        throw new Error(`Word not present. Last letter was ${letter}`);
+        throw new Error(`Sub-word not present. Last letter was ${letter}`);
       }
       return node.getChildren()[letter];
-    });
+    }, rootNode);
+
     const words = findAllEndOfWords(root);
+
     return words
       .sort((a, b) => a.count > b.count)
       .map((word) => {
-        word.word = seed + word.word;
+        // have to slice off the first letter since it's already present at the end of the seed
+        word.word = seed + word.word.slice(1, word.word.length);
         return word;
       });
   }

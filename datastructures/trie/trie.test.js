@@ -21,7 +21,7 @@ describe("trie", () => {
     });
   });
   describe("getTopWords", () => {
-    it.only("returns a word", () => {
+    it("returns a word", () => {
       const trie = createTrie();
       trie.addWord("word");
 
@@ -49,7 +49,7 @@ describe("trie", () => {
           count: 2,
         },
         {
-          word: "word",
+          word: "weird",
           count: 1,
         },
       ];
