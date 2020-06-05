@@ -1,4 +1,4 @@
-const { F, G, H, I } = require("./step3");
+const { F, G, H, I, getT, rotateLeft } = require("./step4");
 
 describe("step3", () => {
   describe("F", () => {
@@ -29,4 +29,20 @@ describe("step3", () => {
       );
     });
   });
+  describe('getT', () => {
+    test('1', () => {
+      expect(getT(1)).toBe(3614090360);
+    })
+    test('16', () => {
+      expect(getT(16)).toBe(1236535329);
+    })
+  })
+  describe('rotateLeft', () => {
+    test('1', () => {
+      expect(rotateLeft(1)).toBe(256);
+    })
+    test('16', () => {
+      expect(rotateLeft(16)).toBe(4097);
+    })
+  })
 });
