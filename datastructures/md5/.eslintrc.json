@@ -1,0 +1,15 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "script"
+  },
+  "rules": {
+    "strict": "error",
+    "prettier/prettier": "error"
+  },
+  "env": {
+    "node": true
+  },
+  "plugins": ["prettier"],
+  "extends": ["plugin:prettier/recommended"]
+}
