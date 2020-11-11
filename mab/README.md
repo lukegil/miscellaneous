@@ -14,4 +14,4 @@
 ## Bayesian Bandit Visualization
 - Play with different number of trials, arms, and arm probabilities (ctrs)
 
-![](./static/bayesian-distribution-viz.gif)
+![](./static/bayesian-bandit-viz.gif)
