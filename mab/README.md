@@ -9,5 +9,9 @@
 ## Beta Distibution Visualization
 - Play with different alpha and betas to see how they change the curve
 
+![](./static/beta-distribution-viz.gif)
+
 ## Bayesian Bandit Visualization
 - Play with different number of trials, arms, and arm probabilities (ctrs)
+
+![](./static/bayesian-distribution-viz.gif)
