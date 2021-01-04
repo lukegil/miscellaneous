@@ -28,3 +28,9 @@ class Arm():
     """
     def update_after_round(self, won):
         pass
+
+    @property
+    def win_rate(self):
+        if self.tries:
+            return self.wins / self.tries
+        return 0

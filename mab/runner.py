@@ -1,6 +1,8 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+from IPython.display import display
 
 def run_round(choose_arm, arm_to_history):
     """
@@ -24,11 +26,12 @@ def graph_impressions(arm_to_history):
 
 def graph_regret(arms_to_history):
     arms = list(arms_to_history)
-    no_regret_arm_index = np.argmax([ arm.expected_win_rate 
+    no_regret_arm_index = np.argmax([ arm.wins / arm.tries if arm.tries else 0 
                                for arm in list(arms)])
     no_regret_arm = arms[no_regret_arm_index]
     
-    ideal_wins = np.cumsum([no_regret_arm.expected_win_rate 
+    max_ctr = no_regret_arm.wins / no_regret_arm.tries if no_regret_arm.tries else 0
+    ideal_wins = np.cumsum([max_ctr 
                             for _ in arms_to_history[no_regret_arm]['impressions']])
     
     actual_wins = []
@@ -37,6 +40,16 @@ def graph_regret(arms_to_history):
     actual_wins = np.cumsum(actual_wins)
     
     regret = [ideal - actual for ideal, actual in zip(ideal_wins, actual_wins)]
-    ax = sns.lineplot(data={'regret': regret})
+    sns.lineplot(data={'regret': regret})
     plt.legend(title="Regret")
     plt.show()
+
+def display_real_ctrs(arms_to_history):
+    df = pd.DataFrame(columns=['Expected CTR', 'Actual CTR'])
+    for arm in arms_to_history:
+        df.loc[arm.name] = [
+            '{:.1%}'.format(arm.expected_win_rate), 
+            '{:.1%}'.format(arm.wins / arm.tries if arm.tries else 0)
+        ]
+
+    display(df)
